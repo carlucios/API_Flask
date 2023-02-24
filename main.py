@@ -10,10 +10,6 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# @app.route('/')
-# def hello_world():
-#     return 'Hello World!'
-
 app.config['SQLALCHEMY_DATABASE_URI'] = \
     '{SGBD}://{usuario}:{senha}@{servidor}/{database}'.format(
         SGBD = str(getenv('SGBD')),
@@ -85,7 +81,7 @@ def atualiza_pedido(id):
         return Response(json.dumps({'Erro': 'Nao encontramos um pedido!'}), status=404)
 
 @app.route('/apagapedido/<int:id>', methods=['DELETE'])
-def apaga_padido(id):
+def apaga_pedido(id):
     pedido = Pedido.query.filter(Pedido.id == id).one_or_none()
 
     if pedido is not None:
@@ -96,6 +92,6 @@ def apaga_padido(id):
     else:
         return Response(json.dumps({'Erro': 'Nao encontramos um pedido!'}), status=404)
 
-
-app.config['DEBUG'] = True
-app.run()
+if __name__ == "__main__":
+    app.config['DEBUG'] = True
+    app.run()
